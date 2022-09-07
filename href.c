@@ -11,7 +11,6 @@ size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
 // slice file name
 char* slcfname(char *name_file)
 {
-	printf("%s\n", name_file);
 	int index_result_str = 0;
 	char* result = (char*)malloc((MAXLEN_PATH + 1) * sizeof(char));
 	
@@ -20,7 +19,6 @@ char* slcfname(char *name_file)
 			result[index_result_str++] = name_file[i];
 	}
 	result[MAXLEN_PATH] = '\0';
-	//printf("%s\n", result);
 	return result;	
 }
 
@@ -31,13 +29,14 @@ void dwlstlinks(char *link)
 	char *exten_file, *name_file;	
 	int len_url = strlen(link);
 	exten_file = extenlink(link, len_url);	
+	ctrdir(exten_file); // create directory for file for exten
 	name_file = fnlink(link, len_url);
 	rslash(name_file);
 		
 	if (strlen(name_file) > MAXLEN_NAMEFILE) {
 		name_file = slcfname(name_file);
 	}
-	sprintf(path, "%s/%s.%s", DOWNDIR, name_file, exten_file);
+	sprintf(path, "%s/%s/%s.%s", DOWNDIR, exten_file, name_file, exten_file);
 	dwlink(path, link);
 }
 
